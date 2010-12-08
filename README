@@ -1,0 +1,4 @@
+This demo uses the SimpleGeo Context JSONP client to identify the context for any point.
+
+Click any point on the map to view its context. Then, click on any highlighted
+place name to view its boundary.
