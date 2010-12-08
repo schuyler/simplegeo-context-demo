@@ -1,0 +1,85 @@
+var client = new simplegeo.ContextClient('wdnCU4wKjvb3BYsW9UDGAdWzFDvfN9sW');
+
+var po = org.polymaps;
+var map = po.map()
+    .container(document.getElementById("map").appendChild(po.svg("svg")))
+    .add(po.interact())
+    .add(po.hash());
+
+map.add(po.image()
+    .url(po.url("http://{S}tile.cloudmade.com"
+    + "/1a1b06b230af4efdbb989ea99e9841af" // http://cloudmade.com/register
+    + "/998/256/{Z}/{X}/{Y}.png")
+    .hosts(["a.", "b.", "c.", ""])));
+
+var geojson = po.geoJson();
+map.add(geojson);
+map.add(po.compass().pan("none"));
+
+geojson.on("load", function(e) {
+    if (e.features.length) {
+        var f = e.features[0];
+        f.element.setAttribute("class", "boundary");
+    }
+});
+
+// don't treat a down-drag-up as a click.
+var mouseMoved = false;
+$("#map").mousedown(function(e) { mouseMoved = false });
+$("#map").mousemove(function(e) { mouseMoved = true });
+$("#map").mouseup(function(e) {
+    if (mouseMoved) return;
+    var coord = map.pointLocation(map.mouse(e));
+    /* deal with wraparound */
+    while (coord.lon > 180.0) coord.lon -= 360.0;
+    while (coord.lon < -180.0) coord.lon += 360.0;
+    console.log("("+coord.lat+","+coord.lon+")");
+    client.getContext(coord.lat, coord.lon, function(err, data) {
+        if (err) 
+            console.error(err);
+        else {
+            data.features.sort(function(a, b) {
+                return approximateArea(a.bounds) - approximateArea(b.bounds);
+            });
+            listFeatures(data.features);
+        }
+    });
+});
+
+function approximateArea(bounds) {
+    var delta = bounds[3] - bounds[1];
+    return (bounds[2]-bounds[0])*Math.cos(delta*Math.PI/180.0)*delta;
+}
+
+function listFeatures(features) {
+    $("#infolist").empty();
+    var extent = map.extent();
+    var bounds = [extent[0].lon, extent[0].lat, extent[1].lon, extent[1].lat];
+    $.each(features, function(i, f) {
+        var li = document.createElement("li");
+        var anchor = document.createElement("a");
+        var cat = f.category;
+        if (f.subcategory) cat += " &raquo; " + f.subcategory;
+        if (approximateArea(f.bounds) < approximateArea(bounds)) {
+            li.className = "feature_clickable";
+            anchor.addEventListener("click", function(e) {loadFeature(anchor,f)}, false);
+        }
+        anchor.innerHTML = "<div class=\"feature_name\">" + f.name + "</div>"
+                         + "<div class=\"feature_type\">" + cat + "</div>";
+        li.appendChild(anchor);
+        $("#infolist").append(li);
+    });
+}
+
+function loadFeature(anchor, feature) {
+    $(".feature_clicked").each(function (i, e) {e.className = "feature_clickable"});
+    anchor.parentNode.className = "feature_clicked";
+    client.getFeature(feature.handle, function (err, data) {
+        if (err) {
+            console.error(err);
+        } else {
+            geojson.features([data]);
+            map.center({lon: (feature.bounds[0]+feature.bounds[2])/2, lat: (feature.bounds[1]+feature.bounds[3])/2});
+        }
+    });
+}
