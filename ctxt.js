@@ -41,7 +41,7 @@ $("#map").mouseup(function(e) {
             data.features.sort(function(a, b) {
                 return approximateArea(a.bounds) - approximateArea(b.bounds);
             });
-            listFeatures(data.features);
+            listFeatures(data);
         }
     });
 });
@@ -51,11 +51,31 @@ function approximateArea(bounds) {
     return (bounds[2]-bounds[0])*Math.cos(delta*Math.PI/180.0)*delta;
 }
 
-function listFeatures(features) {
+function getWeather(weather) {
+    var temp = "";
+    if (!weather) return;
+    if (weather.temperature) {
+        var temp_f = weather.temperature.substr(0, weather.temperature.length-1);
+        var temp_c = Math.round((temp_f - 32) / 9.0 * 5.0);
+        temp = temp_c + "&deg;C (" + temp_f + "&deg;F)";
+    }
+    return (weather.conditions ? weather.conditions + " " : "") + temp;
+}
+
+function listFeatures(result) {
     $("#infolist").empty();
     var extent = map.extent();
     var bounds = [extent[0].lon, extent[0].lat, extent[1].lon, extent[1].lat];
-    $.each(features, function(i, f) {
+
+    var weather = getWeather(result.weather);
+    if (weather) {
+        var li = document.createElement("li");
+        li.innerHTML = "<div class=\"feature_name temperature\">" + weather + "</div>" +
+                       "<div class=\"feature_type temperature\">Weather Conditions</div>";
+        $("#infolist").append(li);
+    }
+
+    $.each(result.features, function(i, f) {
         var li = document.createElement("li");
         var anchor = document.createElement("a");
         var cat = f.category;

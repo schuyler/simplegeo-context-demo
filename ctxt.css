@@ -1,5 +1,6 @@
 html, body {
   height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -29,7 +30,7 @@ svg {
 }
 
 .compass .back {
-  fill: #eee;
+  fill: #000;
   fill-opacity: .8;
 }
 
@@ -39,7 +40,7 @@ svg {
 }
 
 .compass rect.back.fore {
-  fill: #999;
+  fill: #fff;
   fill-opacity: .3;
   stroke: #eee;
   stroke-width: 1px;
@@ -52,7 +53,7 @@ svg {
 
 .compass .chevron {
   fill: none;
-  stroke: #999;
+  stroke: #fff;
   stroke-width: 5px;
 }
 
@@ -65,20 +66,15 @@ svg {
 }
 
 .compass.active .active .direction {
-  fill: #999;
+  fill: #444;
 }
 
-html, body {
-    padding: 0;
-    margin: 0;
-    overflow: clip;
-}
 #infobox {
     font-family: Helvetica Neue, sans-serif;
     position: absolute;
-    right: 2%;
-    top: 2%;
-    width: 20%;
+    right: 1em;
+    top: 1em;
+    width: 20em;
     color: white;
     background-color: black;
     opacity: 0.75;
@@ -111,11 +107,11 @@ html, body {
     background-color: #333;
 }
 .feature_name {
-    font-size: 10pt;
+    font-size: 9pt;
     font-weight: bold;
 }
 .feature_type {
-    font-size: 8pt;
+    font-size: 7pt;
 }
 .boundary {
     fill: red;
@@ -123,18 +119,27 @@ html, body {
     stroke-width: 2px;
     opacity: 0.4;
 }
+
 #help {
   position: absolute;
-  right: 2%;
-  bottom: 2%;
-  padding: .5em 1.5em .5em 1.5em;
+  left: 1em;
+  bottom: 1em;
   font: 10pt sans-serif;
   background-color: black;
   opacity: 0.75;
   -moz-border-radius: 15px;
   border-radius: 15px;
   color: #fff;
-  cursor: default;
+  list-style: none;
+  padding: .5em;
+}
+
+#help li {
+  padding: .5em;
+}
+
+#help a {
+  color: #fff;
 }
 
 
