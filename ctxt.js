@@ -39,6 +39,7 @@ $("#map").mouseup(function(e) {
         if (err) 
             console.error(err);
         else {
+            geojson.features([]);
             data.features.sort(function(a, b) {
                 return approximateArea(a.bounds) - approximateArea(b.bounds);
             });
@@ -71,6 +72,7 @@ function addInfoItem(innerHtml) {
 
 function listFeatures(result) {
     $("#infolist").empty();
+
     var extent = map.extent();
     var bounds = [extent[0].lon, extent[0].lat, extent[1].lon, extent[1].lat];
 
