@@ -102,6 +102,7 @@ svg {
 }
 .feature_clickable:hover {
     background-color: #333;
+    cursor: pointer;
 }
 .feature_clicked {
     background-color: #333;
