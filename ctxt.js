@@ -24,11 +24,11 @@ geojson.on("load", function(e) {
 });
 
 // don't treat a down-drag-up as a click.
-var mouseMoved = false;
-$("#map").mousedown(function(e) { mouseMoved = false });
-$("#map").mousemove(function(e) { mouseMoved = true });
+var mousePosition;
+$("#map").mousedown(function(e) { mousePosition = map.mouse(e); });
 $("#map").mouseup(function(e) {
-    if (mouseMoved) return;
+    var position = map.mouse(e);
+    if (mousePosition.x - position.x + mousePosition.y - position.y > 5) return;
     var coord = map.pointLocation(map.mouse(e));
     /* deal with wraparound */
     while (coord.lon > 180.0) coord.lon -= 360.0;
