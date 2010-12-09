@@ -31,7 +31,7 @@ svg {
 
 .compass .back {
   fill: #000;
-  fill-opacity: .8;
+  fill-opacity: 0.75;
 }
 
 .compass .fore {
@@ -81,6 +81,7 @@ svg {
     overflow: clip;
     -moz-border-radius: 15px;
     border-radius: 15px;
+    border: 2px solid #999;
 }
 #infobox h1 {
     text-align: center;
@@ -128,6 +129,7 @@ svg {
   font: 10pt sans-serif;
   background-color: black;
   opacity: 0.75;
+  border: 2px solid #999;
   -moz-border-radius: 15px;
   border-radius: 15px;
   color: #fff;
