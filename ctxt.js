@@ -34,6 +34,7 @@ $("#map").mouseup(function(e) {
     while (coord.lon > 180.0) coord.lon -= 360.0;
     while (coord.lon < -180.0) coord.lon += 360.0;
     console.log("("+coord.lat+","+coord.lon+")");
+    addInfoItem("<div style=\"text-align:center\"><blink>... Loading ...</blink></div>");
     client.getContext(coord.lat, coord.lon, function(err, data) {
         if (err) 
             console.error(err);
@@ -62,18 +63,21 @@ function getWeather(weather) {
     return (weather.conditions ? weather.conditions + " " : "") + temp;
 }
 
+function addInfoItem(innerHtml) {
+    var li = document.createElement("li");
+    li.innerHTML = innerHtml;
+    $("#infolist").append(li);
+}
+
 function listFeatures(result) {
     $("#infolist").empty();
     var extent = map.extent();
     var bounds = [extent[0].lon, extent[0].lat, extent[1].lon, extent[1].lat];
 
     var weather = getWeather(result.weather);
-    if (weather) {
-        var li = document.createElement("li");
-        li.innerHTML = "<div class=\"feature_name temperature\">" + weather + "</div>" +
-                       "<div class=\"feature_type temperature\">Weather Conditions</div>";
-        $("#infolist").append(li);
-    }
+    if (weather)
+        addInfoItem("<div class=\"feature_name temperature\">" + weather + "</div>" +
+                    "<div class=\"feature_type temperature\">Weather Conditions</div>");
 
     $.each(result.features, function(i, f) {
         var li = document.createElement("li");
