@@ -33,11 +33,11 @@ $("#map").mouseup(function(e) {
     /* deal with wraparound */
     while (coord.lon > 180.0) coord.lon -= 360.0;
     while (coord.lon < -180.0) coord.lon += 360.0;
-    console.log("("+coord.lat+","+coord.lon+")");
+    // console.log("("+coord.lat+","+coord.lon+")");
     addInfoItem("<div style=\"text-align:center\"><blink>... Loading ...</blink></div>");
     client.getContext(coord.lat, coord.lon, function(err, data) {
         if (err) 
-            console.error(err);
+            (typeof console == "undefined") ? alert(e) : console.error(e);
         else {
             geojson.features([]);
             data.features.sort(function(a, b) {
@@ -102,7 +102,7 @@ function loadFeature(anchor, feature) {
     anchor.parentNode.className = "feature_clicked";
     client.getFeature(feature.handle, function (err, data) {
         if (err) {
-            console.error(err);
+            (typeof console == "undefined") ? alert(e) : console.error(e);
         } else {
             geojson.features([data]);
             map.center({lon: (feature.bounds[0]+feature.bounds[2])/2, lat: (feature.bounds[1]+feature.bounds[3])/2});
