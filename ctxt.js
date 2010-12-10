@@ -83,15 +83,17 @@ function listFeatures(result) {
 
     $.each(result.features, function(i, f) {
         var li = document.createElement("li");
-        var anchor = document.createElement("a");
-        var cat = f.category;
-        if (f.subcategory) cat += " &raquo; " + f.subcategory;
         if (approximateArea(f.bounds) < approximateArea(bounds)) {
             li.className = "feature_clickable";
             anchor.addEventListener("click", function(e) {loadFeature(anchor,f)}, false);
         }
+        var anchor = document.createElement("a");
         anchor.innerHTML = "<div class=\"feature_name\">" + f.name + "</div>"
-                         + "<div class=\"feature_type\">" + cat + "</div>";
+        $.each(f.classifiers, function(j, cl) {
+            var cat = cl.category;
+            if (cl.subcategory) cat += " &raquo; " + cl.subcategory;
+            anchor.innerHTML += "<div class=\"feature_type\">" + cat + "</div>";
+        });
         li.appendChild(anchor);
         $("#infolist").append(li);
     });
