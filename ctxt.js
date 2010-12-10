@@ -82,12 +82,12 @@ function listFeatures(result) {
                     "<div class=\"feature_type temperature\">Weather Conditions</div>");
 
     $.each(result.features, function(i, f) {
-        var li = document.createElement("li");
+        var li = document.createElement("li"),
+            anchor = document.createElement("a");
         if (approximateArea(f.bounds) < approximateArea(bounds)) {
             li.className = "feature_clickable";
             anchor.addEventListener("click", function(e) {loadFeature(anchor,f)}, false);
         }
-        var anchor = document.createElement("a");
         anchor.innerHTML = "<div class=\"feature_name\">" + f.name + "</div>"
         $.each(f.classifiers, function(j, cl) {
             var cat = cl.category;
