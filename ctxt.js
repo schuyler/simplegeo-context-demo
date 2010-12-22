@@ -104,7 +104,7 @@ function loadFeature(anchor, feature) {
     anchor.parentNode.className = "feature_clicked";
     client.getFeature(feature.handle, {zoom: map.zoom}, function (err, data) {
         if (err) {
-            (typeof console == "undefined") ? alert(e) : console.error(e);
+            (typeof console == "undefined") ? alert(err) : console.error(err);
         } else {
             geojson.features([data]);
             map.center({lon: (feature.bounds[0]+feature.bounds[2])/2, lat: (feature.bounds[1]+feature.bounds[3])/2});
