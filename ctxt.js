@@ -102,7 +102,12 @@ function listFeatures(result) {
 function loadFeature(anchor, feature) {
     $(".feature_clicked").each(function (i, e) {e.className = "feature_clickable"});
     anchor.parentNode.className = "feature_clicked";
-    client.getFeature(feature.handle, {zoom: parseInt(map.zoom()+1)}, function (err, data) {
+    zoom = Math.min(map.zoom(),
+                Math.min(Math.log(360/(feature.bounds[2]-feature.bounds[0]))/Math.log(2),
+                         Math.log(180/(feature.bounds[3]-feature.bounds[1]))/Math.log(2)
+                )
+            );
+    client.getFeature(feature.handle, {zoom: parseInt(zoom+1)}, function (err, data) {
         if (err) {
             (typeof console == "undefined") ? alert(err) : console.error(err);
         } else {
