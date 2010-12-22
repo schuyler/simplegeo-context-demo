@@ -111,7 +111,7 @@ function loadFeature(anchor, feature) {
     */
     var z=map.zoom(),
         w=Math.log(360/(feature.bounds[2]-feature.bounds[0]))/Math.log(2),
-        h=Math.log(180/(feature.bounds[3]-feature.bounds[1]))/Math.log(2));
+        h=Math.log(180/(feature.bounds[3]-feature.bounds[1]))/Math.log(2);
     console.log("z",z,"w",w,"h");
     var zoom=Math.min(z,Math.min(w,h));
     client.getFeature(feature.handle, {zoom: parseInt(zoom+1)}, function (err, data) {
