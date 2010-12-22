@@ -1,4 +1,4 @@
-var client = new simplegeo.ContextClient('wdnCU4wKjvb3BYsW9UDGAdWzFDvfN9sW');
+var client = new simplegeo.ContextClient('A4SHeDsBquESjQ2JVYcvgRfuCZCtFMhv');
 
 var po = org.polymaps;
 var map = po.map()
