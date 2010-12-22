@@ -84,10 +84,10 @@ function listFeatures(result) {
     $.each(result.features, function(i, f) {
         var li = document.createElement("li"),
             anchor = document.createElement("a");
-        if (approximateArea(f.bounds) < approximateArea(bounds)) {
+        //if (approximateArea(f.bounds) < approximateArea(bounds)) {
             li.className = "feature_clickable";
             anchor.addEventListener("click", function(e) {loadFeature(anchor,f)}, false);
-        }
+        //}
         anchor.innerHTML = "<div class=\"feature_name\">" + f.name + "</div>"
         $.each(f.classifiers, function(j, cl) {
             var cat = cl.category;
