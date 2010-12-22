@@ -102,7 +102,7 @@ function listFeatures(result) {
 function loadFeature(anchor, feature) {
     $(".feature_clicked").each(function (i, e) {e.className = "feature_clickable"});
     anchor.parentNode.className = "feature_clicked";
-    client.getFeature(feature.handle, {zoom: map.zoom}, function (err, data) {
+    client.getFeature(feature.handle, {zoom: parseInt(map.zoom()+1)}, function (err, data) {
         if (err) {
             (typeof console == "undefined") ? alert(err) : console.error(err);
         } else {
