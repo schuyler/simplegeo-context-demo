@@ -35,7 +35,7 @@ $("#map").mouseup(function(e) {
     while (coord.lon < -180.0) coord.lon += 360.0;
     // console.log("("+coord.lat+","+coord.lon+")");
     addInfoItem("<div style=\"text-align:center\"><blink>... Loading ...</blink></div>");
-    client.getContext(coord.lat, coord.lon, function(err, data) {
+    client.getContext(coord.lat, coord.lon,  function(err, data) {
         if (err) 
             (typeof console == "undefined") ? alert(e) : console.error(e);
         else {
@@ -102,7 +102,7 @@ function listFeatures(result) {
 function loadFeature(anchor, feature) {
     $(".feature_clicked").each(function (i, e) {e.className = "feature_clickable"});
     anchor.parentNode.className = "feature_clicked";
-    client.getFeature(feature.handle, function (err, data) {
+    client.getFeature(feature.handle, {zoom: map.zoom}, function (err, data) {
         if (err) {
             (typeof console == "undefined") ? alert(e) : console.error(e);
         } else {
